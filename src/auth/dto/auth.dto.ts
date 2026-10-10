@@ -1,7 +1,8 @@
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsOptional, IsString, MinLength } from 'class-validator';
 
 export class LoginDto {
-  @IsEmail()
+  /** 로그인 ID 또는 이메일 */
+  @IsString()
   email!: string;
 
   @IsString()

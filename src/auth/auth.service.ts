@@ -97,7 +97,7 @@ export class AuthService {
   async me(userId: string) {
     const u = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
     const { passwordHash: _ph, ...rest } = u;
-    return { ...rest, isAdmin: u.role === 'ADMIN', kakaoLinked: !!u.kakaoUserKey };
+    return { ...rest, isAdmin: u.role === 'ADMIN' || u.role === 'SYSADMIN', isSysadmin: u.role === 'SYSADMIN', kakaoLinked: !!u.kakaoUserKey };
   }
 
   async changePassword(user: AuthUserPayload, currentPassword: string, newPassword: string) {

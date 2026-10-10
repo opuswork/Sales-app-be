@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { randomInt } from 'crypto';
 
@@ -35,6 +35,7 @@ export class UsersService {
 
   async list() {
     const users = await this.prisma.user.findMany({
+      where: { role: { not: 'SYSADMIN' } },
       select: { ...PUBLIC_SELECT, zones: { select: { id: true, name: true } }, _count: { select: { recordings: true } } },
       orderBy: { createdAt: 'asc' },
     });
@@ -67,7 +68,8 @@ export class UsersService {
     return { ...u, tempPassword: dto.password ? undefined : password };
   }
 
-  async update(id: string, dto: UpsertUserDto) {
+  async update(id: string, dto: UpsertUserDto, by?: { isSysadmin: boolean }) {
+    await this.guardSystem(id, by);
     const { password, email, ...rest } = dto;
     const data: any = { ...rest };
     if (email) data.email = email.toLowerCase().trim();
@@ -78,12 +80,14 @@ export class UsersService {
     return this.prisma.user.update({ where: { id }, data, select: PUBLIC_SELECT });
   }
 
-  async remove(id: string) {
+  async remove(id: string, by?: { isSysadmin: boolean }) {
+    await this.guardSystem(id, by);
     await this.prisma.user.delete({ where: { id } });
     return { ok: true };
   }
 
-  async resetPassword(id: string) {
+  async resetPassword(id: string, by?: { isSysadmin: boolean }) {
+    await this.guardSystem(id, by);
     const password = this.tempPassword();
     await this.prisma.user.update({
       where: { id },
@@ -105,6 +109,12 @@ export class UsersService {
   async unlinkKakao(userId: string) {
     await this.prisma.user.update({ where: { id: userId }, data: { kakaoUserKey: null } });
     return { ok: true };
+  }
+
+  /** 시스템 관리자 계정은 시스템 관리자만 수정·삭제 */
+  private async guardSystem(id: string, by?: { isSysadmin: boolean }) {
+    const t = await this.prisma.user.findUnique({ where: { id }, select: { role: true } });
+    if (t?.role === 'SYSADMIN' && !by?.isSysadmin) throw new ForbiddenException('시스템 관리자 계정은 수정할 수 없습니다.');
   }
 
   private tempPassword() {

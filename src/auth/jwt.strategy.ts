@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { PrismaService } from '../prisma/prisma.service';
 
-export type AppRole = 'ADMIN' | 'STAFF';
+export type AppRole = 'SYSADMIN' | 'ADMIN' | 'STAFF';
 
 export type JwtPayload = { sub: string; email: string; role: AppRole; typ: 'access' };
 
@@ -15,6 +15,7 @@ export type AuthUserPayload = {
   name: string;
   role: AppRole;
   isAdmin: boolean;
+  isSysadmin: boolean;
 };
 
 export const DEV_SECRET = 'sales-app-dev-secret';
@@ -48,7 +49,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       email: user.email,
       name: user.name,
       role: user.role,
-      isAdmin: user.role === 'ADMIN',
+      isAdmin: user.role === 'ADMIN' || user.role === 'SYSADMIN',
+      isSysadmin: user.role === 'SYSADMIN',
     };
   }
 }
