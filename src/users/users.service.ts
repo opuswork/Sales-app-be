@@ -49,7 +49,7 @@ export class UsersService {
   }
 
   async create(dto: UpsertUserDto) {
-    if (!dto.email || !dto.name) throw new BadRequestException('이메일과 이름은 필수입니다.');
+    if (!dto.email || !dto.name) throw new BadRequestException("로그인 ID와 이름은 필수입니다.");
     const password = dto.password ?? this.tempPassword();
     const { password: _p, email, ...rest } = dto;
     const u = await this.prisma.user.create({

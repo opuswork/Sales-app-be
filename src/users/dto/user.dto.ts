@@ -1,19 +1,20 @@
 import {
   IsArray,
   IsBoolean,
-  IsEmail,
   IsIn,
   IsInt,
   IsObject,
   IsOptional,
   IsString,
+  Matches,
   Max,
   Min,
   MinLength,
 } from 'class-validator';
 
 export class UpsertUserDto {
-  @IsOptional() @IsEmail() email?: string;
+  /** 로그인 ID 또는 이메일 (공백 없이 3자 이상) */
+  @IsOptional() @IsString() @Matches(/^\S{3,}$/, { message: '로그인 ID는 공백 없이 3자 이상이어야 합니다.' }) email?: string;
   @IsOptional() @IsString() @MinLength(8) password?: string;
   @IsOptional() @IsIn(['ADMIN', 'STAFF']) role?: 'ADMIN' | 'STAFF';
   @IsOptional() @IsBoolean() active?: boolean;
