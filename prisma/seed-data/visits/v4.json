@@ -1,0 +1,17 @@
+{
+  "accountId": "a21",
+  "companion": "",
+  "content": "LG CNS 복지몰 상품 입점 통화. 분석 및 영업 보고서 작성.",
+  "date": "2026-09-04",
+  "duration": "",
+  "followup": "입점 서류 준비",
+  "id": "v4",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "staffId": "s4",
+  "stageAfter": "",
+  "transport": "비대면",
+  "type": "전화"
+}

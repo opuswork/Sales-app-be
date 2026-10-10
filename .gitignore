@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+src/generated/
+uploads/
+worker/.cache/
+worker/__pycache__/
+*.log
+.DS_Store

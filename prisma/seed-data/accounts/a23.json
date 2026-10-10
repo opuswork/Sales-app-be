@@ -1,0 +1,24 @@
+{
+  "channel": "박람회·행사",
+  "grade": "B",
+  "id": "a23",
+  "lastVisit": "2026-09-03",
+  "memo": "추석 리플렛 · 부산우수식품 인증",
+  "name": "부산우수식품 (부산시)",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)",
+    "양재",
+    "메리야스",
+    "두부"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "정기납품",
+  "zoneId": "z3"
+}

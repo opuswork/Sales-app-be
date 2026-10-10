@@ -1,0 +1,22 @@
+{
+  "channel": "온라인",
+  "grade": "A",
+  "id": "a26",
+  "lastVisit": "2026-09-09",
+  "memo": "종교 문의 대응 자료 보유",
+  "name": "마켓컬리",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)",
+    "두부"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "정기납품",
+  "zoneId": "z14"
+}

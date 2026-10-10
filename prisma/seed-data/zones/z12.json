@@ -1,0 +1,17 @@
+{
+  "area": "청주시·대전",
+  "assignedAt": "2026-09-20",
+  "channel": "급식·기업",
+  "channel2": "유통·외식",
+  "difficulty": 4,
+  "id": "z12",
+  "name": "청주·충북",
+  "note": "SK하이닉스 청주·대전 병원",
+  "ownerId": "s2",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "reqRank": "과장",
+  "sido": "충북·대전"
+}

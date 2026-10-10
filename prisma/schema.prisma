@@ -1,0 +1,286 @@
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// 앱 권한. ADMIN = 전체 관리(부장·총괄), STAFF = 담당자(본인 데이터 중심)
+enum Role {
+  ADMIN
+  STAFF
+}
+
+/// 담당자(= 로그인 사용자). 직급·Skill·경험치는 자동 배정 점수에 쓰인다.
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         Role     @default(STAFF)
+  active       Boolean  @default(true)
+  mustChangePw Boolean  @default(true) @map("must_change_pw")
+
+  name     String
+  rank     String  @default("대리") // 부장/차장/과장/대리/주임/사원
+  part     String  @default("필드영업") // 총괄/필드영업/마케팅/영업지원
+  roleDesc String  @default("") @map("role_desc")
+  base     String  @default("부산")
+  exp      Int     @default(0) // 경력 연수
+  skills   Json    @default("{}") // {채널명: 0~5}
+  products String[] @default([])
+  field    Boolean @default(true) // 자동 배정 대상
+  zoneCap  Int     @default(3) @map("zone_cap")
+  capacity Int     @default(4) // 주간 활동 가능 건수
+  note     String  @default("")
+  phone    String  @default("")
+
+  /// 카카오 i 오픈빌더가 보내주는 사용자 식별값(botUserKey). 연결 코드로 묶는다.
+  kakaoUserKey String? @unique @map("kakao_user_key")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  refreshTokens RefreshToken[]
+  zones         Zone[]
+  fixedAccounts Account[]   @relation("FixedOwner")
+  visits        Visit[]
+  plans         Plan[]
+  recordings    Recording[]
+  kakaoLinks    KakaoLinkCode[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique @map("token_hash")
+  userAgent String   @default("") @map("user_agent")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([userId])
+  @@map("refresh_tokens")
+}
+
+/// 영업 구역 (행정구역 기준)
+model Zone {
+  id         String   @id @default(cuid())
+  name       String
+  sido       String
+  area       String   @default("")
+  channel    String // 주력 채널
+  channel2   String   @default("") // 보조 채널
+  difficulty Int      @default(3)
+  reqRank    String   @default("대리") @map("req_rank")
+  products   String[] @default([])
+  note       String   @default("")
+  ownerId    String?  @map("owner_id")
+  owner      User?    @relation(fields: [ownerId], references: [id], onDelete: SetNull)
+  lockOwner  Boolean  @default(false) @map("lock_owner")
+  assignedAt DateTime? @map("assigned_at")
+  sortOrder  Int      @default(0) @map("sort_order")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  accounts Account[]
+
+  @@map("zones")
+}
+
+/// 거래처 마스터
+model Account {
+  id           String   @id @default(cuid())
+  name         String
+  zoneId       String?  @map("zone_id")
+  zone         Zone?    @relation(fields: [zoneId], references: [id], onDelete: SetNull)
+  channel      String
+  grade        String   @default("B") // S/A/B
+  stage        String   @default("접촉")
+  ownerMode    String   @default("zone") // zone | fixed
+  ownerId      String?  @map("owner_id")
+  fixedOwner   User?    @relation("FixedOwner", fields: [ownerId], references: [id], onDelete: SetNull)
+  products     String[] @default([])
+  phone        String   @default("")
+  memo         String   @default("")
+  nextAction   String   @default("") @map("next_action")
+  nextDate     String   @default("") @map("next_date") // YYYY-MM-DD
+  lastVisit    String   @default("") @map("last_visit") // YYYY-MM-DD
+  registeredAt String   @default("") @map("registered_at")
+  registeredBy String   @default("") @map("registered_by")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  visits Visit[]
+
+  @@index([zoneId])
+  @@index([name])
+  @@map("accounts")
+}
+
+/// 방문·체크인 (미팅보고서 양식)
+model Visit {
+  id         String   @id @default(cuid())
+  date       String // YYYY-MM-DD
+  accountId  String   @map("account_id")
+  account    Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  staffId    String   @map("staff_id")
+  staff      User     @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  type       String   @default("방문") // 방문/전화/미팅/마케팅·행사/관장님문의
+  companion  String   @default("")
+  duration   String   @default("")
+  content    String   @default("")
+  followup   String   @default("")
+  transport  String   @default("자차")
+  products   String[] @default([])
+  stageAfter String   @default("") @map("stage_after")
+  source     String   @default("app") // app | kakao | voice
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([date])
+  @@index([staffId, date])
+  @@map("visits")
+}
+
+/// 주간 방문 계획 (담당자 × 주 시작일)
+model Plan {
+  id        String   @id @default(cuid())
+  staffId   String   @map("staff_id")
+  staff     User     @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  weekStart String   @map("week_start") // 월요일 YYYY-MM-DD
+  items     Json     @default("[]") // [{day, accountId, zoneId, reason}]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([staffId, weekStart])
+  @@map("plans")
+}
+
+/// 행사·교육·회의·마감 일정
+model Event {
+  id        String   @id @default(cuid())
+  date      String
+  title     String
+  kind      String   @default("행사")
+  place     String   @default("")
+  who       String   @default("")
+  memo      String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([date])
+  @@map("events")
+}
+
+/// 설정 (가중치 등) key-value
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("settings")
+}
+
+enum RecordingStatus {
+  QUEUED
+  TRANSCRIBING
+  ANALYZING
+  READY
+  APPLIED
+  FAILED
+}
+
+/// 음성 녹취 (m4a 업로드 → STT → 분석 → 초안)
+model Recording {
+  id          String          @id @default(cuid())
+  staffId     String          @map("staff_id")
+  staff       User            @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  title       String          @default("")
+  fileName    String          @map("file_name")
+  fileUrl     String          @map("file_url")
+  mimeType    String          @map("mime_type")
+  sizeBytes   Int             @map("size_bytes")
+  durationSec Int?            @map("duration_sec")
+  recordedAt  String          @default("") @map("recorded_at") // YYYY-MM-DD (녹음일, 분석 기준일)
+  status      RecordingStatus @default(QUEUED)
+  transcript  String          @default("")
+  summary     String          @default("")
+  error       String          @default("")
+  claimedBy   String          @default("") @map("claimed_by")
+  claimedAt   DateTime?       @map("claimed_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  drafts Draft[]
+
+  @@index([status])
+  @@map("recordings")
+}
+
+enum DraftStatus {
+  PENDING
+  APPLIED
+  REJECTED
+}
+
+/// 녹취 분석으로 제안된 변경 (초안). 검토 후 반영.
+model Draft {
+  id          String      @id @default(cuid())
+  recordingId String      @map("recording_id")
+  recording   Recording   @relation(fields: [recordingId], references: [id], onDelete: Cascade)
+  kind        String // zone | account | visit | plan | event | assignment | report
+  action      String      @default("create") // create | update
+  targetId    String      @default("") @map("target_id")
+  title       String      @default("")
+  payload     Json
+  confidence  Float       @default(0.5)
+  evidence    String      @default("")
+  status      DraftStatus @default(PENDING)
+  appliedId   String      @default("") @map("applied_id")
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@index([recordingId, status])
+  @@map("drafts")
+}
+
+/// 생성된 보고서 보관
+model Report {
+  id          String   @id @default(cuid())
+  kind        String // weekly | marketing | eval | voice
+  period      String   @default("")
+  title       String   @default("")
+  markdown    String
+  recordingId String   @default("") @map("recording_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("reports")
+}
+
+/// 카카오톡 채널 계정 연결 코드 (앱에서 발급 → 채널에 "연결 123456" 전송)
+model KakaoLinkCode {
+  code      String   @id
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("kakao_link_codes")
+}
+
+/// 카카오 채널로 들어온 메시지 로그 (중복 처리 방지·디버깅)
+model KakaoMessage {
+  id         String   @id @default(cuid())
+  userKey    String   @map("user_key")
+  utterance  String
+  parsed     Json?
+  visitId    String   @default("") @map("visit_id")
+  reply      String   @default("")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([userKey, createdAt])
+  @@map("kakao_messages")
+}

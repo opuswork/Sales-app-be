@@ -1,0 +1,5 @@
+faster-whisper>=1.2.0
+requests>=2.32
+# GPU(CUDA 12) 로 돌리려면 아래 둘도 설치 (NVIDIA 드라이버만 있으면 됨):
+nvidia-cublas-cu12
+nvidia-cudnn-cu12

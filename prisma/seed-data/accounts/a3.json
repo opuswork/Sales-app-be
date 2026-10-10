@@ -1,0 +1,21 @@
+{
+  "channel": "급식·기업",
+  "grade": "S",
+  "id": "a3",
+  "lastVisit": "2026-09-03",
+  "memo": "인천·부평권역 병원 · 전단지·인사라벨(김은실)",
+  "name": "아워홈",
+  "nextAction": "판촉물 비용 20,000원 정산",
+  "nextDate": "2026-09-22",
+  "ownerId": "s1",
+  "ownerMode": "fixed",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "s1",
+  "stage": "제안서 발송",
+  "zoneId": "z11"
+}

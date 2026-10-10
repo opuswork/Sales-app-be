@@ -1,0 +1,17 @@
+{
+  "accountId": "a1",
+  "companion": "",
+  "content": "삼성웰스토리 하반기 삼성병원 입점 협의. 함경석 프로 미팅.",
+  "date": "2026-09-11",
+  "duration": "1h",
+  "followup": "병원 조식 단가 확인",
+  "id": "v6",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "staffId": "s1",
+  "stageAfter": "",
+  "transport": "자차",
+  "type": "미팅"
+}

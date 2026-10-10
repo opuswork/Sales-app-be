@@ -1,0 +1,21 @@
+{
+  "channel": "급식·기업",
+  "grade": "S",
+  "id": "a6",
+  "lastVisit": "2026-08-06",
+  "memo": "사내식당·복지몰 경로 탐색",
+  "name": "삼성전자 (수원)",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "s1",
+  "ownerMode": "fixed",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "s1",
+  "stage": "접촉",
+  "zoneId": "z10"
+}

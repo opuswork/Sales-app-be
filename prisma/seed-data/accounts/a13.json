@@ -1,0 +1,20 @@
+{
+  "channel": "특수채널·제휴",
+  "grade": "A",
+  "id": "a13",
+  "lastVisit": "2026-08-16",
+  "memo": "조인행사 진행 예정",
+  "name": "TLC헬스케어 (병원키오스크)",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "제안서 발송",
+  "zoneId": "z9"
+}

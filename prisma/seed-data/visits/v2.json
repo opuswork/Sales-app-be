@@ -1,0 +1,17 @@
+{
+  "accountId": "a8",
+  "companion": "",
+  "content": "일광읍 게시대 8개 단지 관리소 영업. 아파트광고 QR·배너 필요.",
+  "date": "2026-09-08",
+  "duration": "",
+  "followup": "관리소장 미팅 일정 확정",
+  "id": "v2",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "staffId": "s3",
+  "stageAfter": "",
+  "transport": "자차",
+  "type": "방문"
+}

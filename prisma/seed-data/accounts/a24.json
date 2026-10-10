@@ -1,0 +1,22 @@
+{
+  "channel": "유통·외식",
+  "grade": "A",
+  "id": "a24",
+  "lastVisit": "2026-08-13",
+  "memo": "백화점 시즌 포장 지원 (김표정)",
+  "name": "울산 현대백화점 시즌",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "양재",
+    "메리야스"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "정기납품",
+  "zoneId": "z5"
+}

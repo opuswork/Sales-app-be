@@ -1,0 +1,21 @@
+{
+  "channel": "상회·상권",
+  "grade": "B",
+  "id": "a7",
+  "lastVisit": "2026-09-10",
+  "memo": "전 가맹점 물류센터 일괄입고 / 우선 테스트: 부산 기장·일광점 · 계약서 점검",
+  "name": "다이클로 일광점",
+  "nextAction": "입점 결론 (미팅 후 2주 내)",
+  "nextDate": "2026-09-21",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "견적·단가 협의",
+  "zoneId": "z1"
+}

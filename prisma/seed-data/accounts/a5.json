@@ -1,0 +1,21 @@
+{
+  "channel": "급식·기업",
+  "grade": "S",
+  "id": "a5",
+  "lastVisit": "2026-08-18",
+  "memo": "1개월 내 제안서 제출 (미완 과제)",
+  "name": "SK하이닉스",
+  "nextAction": "제안서 최종 검토",
+  "nextDate": "2026-09-24",
+  "ownerId": "s1",
+  "ownerMode": "fixed",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "s1",
+  "stage": "제안서 발송",
+  "zoneId": "z12"
+}

@@ -1,0 +1,17 @@
+{
+  "accountId": "a7",
+  "companion": "정태현 관장님",
+  "content": "다이클로 일광점 2군데 방문. 전 가맹점 물류센터 일괄입고 검토, 우선 테스트 희망 지점 기장·일광점.",
+  "date": "2026-09-10",
+  "duration": "1.5h",
+  "followup": "계약서 점검 후 입점 결론",
+  "id": "v1",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "staffId": "s3",
+  "stageAfter": "",
+  "transport": "자차",
+  "type": "방문"
+}

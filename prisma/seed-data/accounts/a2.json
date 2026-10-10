@@ -1,0 +1,21 @@
+{
+  "channel": "급식·기업",
+  "grade": "S",
+  "id": "a2",
+  "lastVisit": "2026-08-31",
+  "memo": "현대계열사·급식운영기획실",
+  "name": "현대그린푸드",
+  "nextAction": "직원식 요청서 제출",
+  "nextDate": "2026-09-25",
+  "ownerId": "s1",
+  "ownerMode": "fixed",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "s1",
+  "stage": "견적·단가 협의",
+  "zoneId": "z10"
+}
