@@ -7,9 +7,10 @@ import { PrismaService } from '../prisma/prisma.service';
 
 /**
  * 첫 기동 시 자동 시드.
- * - 사용자가 한 명도 없으면 prisma/seed-data/*.json (조직도·구역·거래처·방문·행사) 를 넣고
- *   SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD 로 관리자(김혜경·총괄) 계정을 만든다.
- * - 사용자는 있는데 ADMIN 이 없으면 관리자 계정만 만든다.
+ * - 시스템 관리자(SYSADMIN) 가 없으면 SEED_ADMIN_EMAIL(로그인 ID, 기본 sysadmin) / SEED_ADMIN_PASSWORD 로 만든다.
+ *   담당자 목록에 보이지 않고 전체를 관리한다.
+ * - 사용자가 한 명도 없으면 prisma/seed-data/*.json (조직도·구역·거래처·방문·행사) 를 넣는다.
+ *   김혜경 부장(총괄)은 ADMIN 권한, 로그인 s1@sales-app.local — 담당자 화면에서 실제 이메일로 바꾼다.
  * Render 무료 플랜은 Shell 이 없어 scripts/seed.mjs 를 직접 못 돌리므로 서버가 스스로 처리한다.
  */
 @Injectable()
@@ -20,13 +21,9 @@ export class SeedService implements OnApplicationBootstrap {
 
   async onApplicationBootstrap() {
     try {
-      const users = await this.prisma.user.count();
-      if (users === 0) {
-        await this.seedAll();
-        return;
-      }
-      const admins = await this.prisma.user.count({ where: { role: 'ADMIN' } });
-      if (admins === 0) await this.ensureAdmin();
+      await this.ensureAdmin();
+      const users = await this.prisma.user.count({ where: { role: { not: 'SYSADMIN' } } });
+      if (users === 0) await this.seedAll();
     } catch (e) {
       this.logger.error(`auto seed failed: ${(e as Error).message}`);
     }
@@ -47,31 +44,39 @@ export class SeedService implements OnApplicationBootstrap {
   }
 
   private adminEmail() {
-    return (process.env.SEED_ADMIN_EMAIL || 'admin@example.com').toLowerCase().trim();
+    return (process.env.SEED_ADMIN_EMAIL || 'sysadmin').toLowerCase().trim();
   }
 
+  /** 시스템 관리자 계정 보장 */
   private async ensureAdmin() {
-    const email = this.adminEmail();
-    const exists = await this.prisma.user.findUnique({ where: { email } });
-    if (exists) {
-      if (exists.role !== 'ADMIN') await this.prisma.user.update({ where: { id: exists.id }, data: { role: 'ADMIN' } });
-      return;
+    const sys = await this.prisma.user.findFirst({ where: { role: 'SYSADMIN' } });
+    if (sys) return;
+    let email = this.adminEmail();
+    // 이미 담당자(예: 김혜경 부장)가 쓰는 이메일이면 그 계정을 건드리지 않고 'sysadmin' ID 로 만든다
+    if (await this.prisma.user.findUnique({ where: { email } })) {
+      this.logger.warn(`SEED_ADMIN_EMAIL(${email}) is already a staff account; creating 'sysadmin' instead`);
+      email = 'sysadmin';
+      if (await this.prisma.user.findUnique({ where: { email } })) {
+        this.logger.warn(`'sysadmin' also exists as a non-SYSADMIN account; skipping`);
+        return;
+      }
     }
     await this.prisma.user.create({
       data: {
         email,
         passwordHash: await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD || 'change-me-1234', 10),
-        role: 'ADMIN',
+        role: 'SYSADMIN',
         mustChangePw: false,
-        name: '관리자',
+        name: '시스템관리자',
         rank: '부장',
         part: '총괄',
+        roleDesc: '시스템 관리',
         field: false,
         zoneCap: 0,
         capacity: 0,
       },
     });
-    this.logger.log(`admin account created: ${email}`);
+    this.logger.log(`sysadmin account created: ${email}`);
   }
 
   private async seedAll() {
@@ -87,20 +92,16 @@ export class SeedService implements OnApplicationBootstrap {
     const visits = this.load(dir, 'visits');
     const events = this.load(dir, 'events');
     const staffHash = await bcrypt.hash(process.env.SEED_STAFF_PASSWORD || 'sales1234!', 10);
-    const adminHash = await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD || 'change-me-1234', 10);
-    const adminEmail = this.adminEmail();
-    let adminCreated = false;
 
     for (const s of staff) {
-      const isAdmin = !adminCreated && (s.part === '총괄' || s.rank === '부장');
-      if (isAdmin) adminCreated = true;
+      const isAdmin = s.part === '총괄' || s.rank === '부장';
       await this.prisma.user.create({
         data: {
           id: s.id,
-          email: isAdmin ? adminEmail : `${s.id}@sales-app.local`,
-          passwordHash: isAdmin ? adminHash : staffHash,
+          email: `${s.id}@sales-app.local`,
+          passwordHash: staffHash,
           role: isAdmin ? 'ADMIN' : 'STAFF',
-          mustChangePw: !isAdmin,
+          mustChangePw: true,
           name: s.name,
           rank: s.rank,
           part: s.part,
@@ -116,8 +117,6 @@ export class SeedService implements OnApplicationBootstrap {
         },
       });
     }
-    if (!adminCreated) await this.ensureAdmin();
-
     let order = 0;
     for (const z of zones) {
       await this.prisma.zone.create({
@@ -184,6 +183,6 @@ export class SeedService implements OnApplicationBootstrap {
         data: { id: e.id, date: e.date, title: e.title, kind: e.kind ?? '행사', place: e.place ?? '', who: e.who ?? '', memo: e.memo ?? '' },
       });
     }
-    this.logger.log(`auto seed done: staff ${staff.length}, zones ${zones.length}, accounts ${accounts.length}, visits ${visits.length}, events ${events.length}; admin ${adminEmail}`);
+    this.logger.log(`auto seed done: staff ${staff.length}, zones ${zones.length}, accounts ${accounts.length}, visits ${visits.length}, events ${events.length}`);
   }
 }

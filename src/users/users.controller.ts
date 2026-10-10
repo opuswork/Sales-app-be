@@ -49,19 +49,19 @@ export class UsersController {
       const { phone, note, products } = dto;
       return this.users.update(id, { phone, note, products });
     }
-    return this.users.update(id, dto);
+    return this.users.update(id, dto, me);
   }
 
   @UseGuards(AdminGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.users.remove(id);
+  remove(@CurrentUser() me: AuthUserPayload, @Param('id') id: string) {
+    return this.users.remove(id, me);
   }
 
   @UseGuards(AdminGuard)
   @Post(':id/reset-password')
-  resetPassword(@Param('id') id: string) {
-    return this.users.resetPassword(id);
+  resetPassword(@CurrentUser() me: AuthUserPayload, @Param('id') id: string) {
+    return this.users.resetPassword(id, me);
   }
 
   @Post('me/kakao-link-code')

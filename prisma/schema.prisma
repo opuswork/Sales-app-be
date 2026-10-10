@@ -8,8 +8,9 @@ datasource db {
   provider = "postgresql"
 }
 
-/// 앱 권한. ADMIN = 전체 관리(부장·총괄), STAFF = 담당자(본인 데이터 중심)
+/// 앱 권한. SYSADMIN = 시스템 관리자(담당자 목록에 안 보임), ADMIN = 전체 관리(부장·총괄), STAFF = 담당자
 enum Role {
+  SYSADMIN
   ADMIN
   STAFF
 }
