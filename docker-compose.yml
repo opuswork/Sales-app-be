@@ -1,0 +1,27 @@
+# Local Postgres for development
+#   docker compose up -d
+# DATABASE_URL=postgresql://postgres:sales_app@localhost:5436/sales_app?schema=public
+
+name: sales-app
+
+services:
+  sales-db:
+    image: postgres:15-alpine
+    container_name: sales-app-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sales_app
+      POSTGRES_DB: sales_app
+    ports:
+      - "5436:5432"
+    volumes:
+      - sales_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sales_app"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  sales_data:

@@ -1,0 +1,21 @@
+{
+  "channel": "특수채널·제휴",
+  "grade": "B",
+  "id": "a18",
+  "lastVisit": "2026-09-15",
+  "memo": "월별 소재·영상(메타·네이버광고) 납품 · 아파트 정기구독",
+  "name": "애드워터",
+  "nextAction": "9월 소재 납품",
+  "nextDate": "2026-09-22",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "정기납품",
+  "zoneId": "z2"
+}

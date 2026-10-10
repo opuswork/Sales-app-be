@@ -1,0 +1,17 @@
+{
+  "accountId": "a23",
+  "companion": "",
+  "content": "부산우수식품 추석 리플렛 제작·배포 협의.",
+  "date": "2026-09-03",
+  "duration": "",
+  "followup": "리플렛 인쇄 500부",
+  "id": "v3",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "staffId": "s5",
+  "stageAfter": "",
+  "transport": "대중교통",
+  "type": "마케팅·행사"
+}

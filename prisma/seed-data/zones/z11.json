@@ -1,0 +1,18 @@
+{
+  "area": "인천 전역·부평권역",
+  "assignedAt": "2026-09-20",
+  "channel": "급식·기업",
+  "channel2": "유통·외식",
+  "difficulty": 4,
+  "id": "z11",
+  "name": "인천·부평",
+  "note": "아워홈 인천·부평권역 병원",
+  "ownerId": "s2",
+  "products": [
+    "간장",
+    "런(발효유)",
+    "두부"
+  ],
+  "reqRank": "과장",
+  "sido": "인천"
+}

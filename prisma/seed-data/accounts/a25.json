@@ -1,0 +1,21 @@
+{
+  "channel": "급식·기업",
+  "grade": "B",
+  "id": "a25",
+  "lastVisit": "2026-07-12",
+  "memo": "예시 거래처 — 실제 업체명으로 수정",
+  "name": "창원 산단 급식위탁 (가칭)",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "접촉",
+  "zoneId": "z6"
+}

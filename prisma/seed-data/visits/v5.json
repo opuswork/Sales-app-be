@@ -1,0 +1,17 @@
+{
+  "accountId": "a9",
+  "companion": "서울1 관장님",
+  "content": "대한노인회 본사(용산) 방문 — 서울1 동행. 노인행사(10/3) 선물세트 연계.",
+  "date": "2026-09-02",
+  "duration": "2h",
+  "followup": "행사 견적서 송부",
+  "id": "v5",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "staffId": "s3",
+  "stageAfter": "",
+  "transport": "대중교통",
+  "type": "미팅"
+}

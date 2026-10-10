@@ -1,0 +1,18 @@
+{
+  "area": "창원시·김해시",
+  "assignedAt": "2026-09-20",
+  "channel": "급식·기업",
+  "channel2": "상회·상권",
+  "difficulty": 3,
+  "id": "z6",
+  "name": "창원·진해·김해",
+  "note": "산단 급식·학교급식",
+  "ownerId": "s3",
+  "products": [
+    "간장",
+    "런(발효유)",
+    "두부"
+  ],
+  "reqRank": "대리",
+  "sido": "경남"
+}

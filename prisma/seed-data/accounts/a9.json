@@ -1,0 +1,21 @@
+{
+  "channel": "상회·상권",
+  "grade": "A",
+  "id": "a9",
+  "lastVisit": "2026-09-02",
+  "memo": "노인행사(10/3) 연계",
+  "name": "대한노인회 본사 (용산)",
+  "nextAction": "추석 선물세트·행사 제안",
+  "nextDate": "2026-09-26",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "상담",
+  "zoneId": "z7"
+}

@@ -1,0 +1,21 @@
+{
+  "channel": "온라인",
+  "grade": "A",
+  "id": "a21",
+  "lastVisit": "2026-09-04",
+  "memo": "상품 입점 통화 분석 및 영업 보고서 작성",
+  "name": "LG CNS 복지몰",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "상담",
+  "zoneId": "z10"
+}

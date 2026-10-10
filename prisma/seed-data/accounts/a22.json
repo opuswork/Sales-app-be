@@ -1,0 +1,21 @@
+{
+  "channel": "유통·외식",
+  "grade": "B",
+  "id": "a22",
+  "lastVisit": "2026-08-29",
+  "memo": "선물세트 제안 (2주 내)",
+  "name": "청밀 (사회적기업)",
+  "nextAction": "",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "양재"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "제안서 발송",
+  "zoneId": "z13"
+}

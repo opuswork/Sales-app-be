@@ -1,0 +1,29 @@
+{
+  "base": "부산",
+  "capacity": 6,
+  "exp": 15,
+  "field": true,
+  "id": "s1",
+  "name": "김혜경",
+  "note": "S급 Key Account 전담 (SK하이닉스·삼성전자·삼성웰스토리·현대그린푸드·아워홈)",
+  "part": "총괄",
+  "products": [
+    "간장",
+    "런(발효유)",
+    "양재",
+    "메리야스",
+    "두부"
+  ],
+  "rank": "부장",
+  "role": "영업총괄 · Key Account 직접 관리",
+  "skills": {
+    "급식·기업": 4,
+    "박람회·행사": 3,
+    "상회·상권": 2,
+    "온라인": 3,
+    "유통·외식": 5,
+    "특수채널·제휴": 3
+  },
+  "userId": "u_Y3vqIpe73s6uVkMJltaWVw",
+  "zoneCap": 2
+}

@@ -1,0 +1,45 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Render 대시보드에서 "New → Blueprint" 로 이 리포(dev 브랜치)를 연결하면 아래 서비스가 만들어진다.
+# Postgres 는 Render 에서 무료 인스턴스를 먼저 만들고 DATABASE_URL(External, ?sslmode=require) 을 환경변수로 넣는다.
+
+services:
+  - type: web
+    name: sales-app-api
+    runtime: node
+    plan: free
+    region: singapore
+    branch: dev
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:render
+    healthCheckPath: /api
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "3002"
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_ACCESS_SECONDS
+        value: "3600"
+      - key: JWT_REFRESH_DAYS
+        value: "90"
+      # Vercel 프론트 주소 (끝에 / 없음)
+      - key: FRONTEND_ORIGIN
+        sync: false
+      # 녹취 파일 저장 (Render 디스크는 휘발) — Vercel Blob 토큰
+      - key: BLOB_READ_WRITE_TOKEN
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-5-5
+      - key: WORKER_TOKEN
+        generateValue: true
+      - key: KAKAO_SKILL_KEY
+        generateValue: true
+      - key: SEED_ADMIN_EMAIL
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false

@@ -1,0 +1,21 @@
+{
+  "channel": "유통·외식",
+  "grade": "A",
+  "id": "a4",
+  "lastVisit": "2026-08-11",
+  "memo": "한화계열사·사조그룹",
+  "name": "푸디스트",
+  "nextAction": "단가표 v1 송부",
+  "nextDate": "",
+  "ownerId": "",
+  "ownerMode": "zone",
+  "phone": "",
+  "products": [
+    "간장",
+    "런(발효유)"
+  ],
+  "registeredAt": "2026-05-23",
+  "registeredBy": "",
+  "stage": "상담",
+  "zoneId": "z8"
+}
