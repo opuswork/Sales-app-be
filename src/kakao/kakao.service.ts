@@ -129,7 +129,7 @@ export class KakaoService {
         stageAfter: parsed.stageAfter && (STAGES as readonly string[]).includes(parsed.stageAfter) ? parsed.stageAfter : '',
         transport: '자차',
       },
-      { id: user.id, email: '', name: user.name, role: 'STAFF', isAdmin: false },
+      { id: user.id, email: '', name: user.name, role: 'STAFF', isAdmin: false, isSysadmin: false },
       'kakao',
     );
     await this.prisma.kakaoMessage.update({ where: { id: logId }, data: { parsed: parsed as any, visitId: visit.id } });
