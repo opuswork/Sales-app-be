@@ -13,6 +13,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { AiModule } from './recordings/ai.module';
 import { RecordingsModule } from './recordings/recordings.module';
 import { ReportsModule } from './reports/reports.module';
+import { SeedModule } from './seed/seed.module';
 import { SettingsModule } from './settings/settings.module';
 import { UsersModule } from './users/users.module';
 import { VisitsModule } from './visits/visits.module';
@@ -36,6 +37,7 @@ import { ZonesModule } from './zones/zones.module';
     ReportsModule,
     RecordingsModule,
     KakaoModule,
+    SeedModule,
   ],
   controllers: [AppController],
 })
