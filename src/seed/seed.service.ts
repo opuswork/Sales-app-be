@@ -50,7 +50,22 @@ export class SeedService implements OnApplicationBootstrap {
   /** 시스템 관리자 계정 보장 */
   private async ensureAdmin() {
     const sys = await this.prisma.user.findFirst({ where: { role: 'SYSADMIN' } });
-    if (sys) return;
+    if (sys) {
+      // 환경변수가 시스템 관리자 비밀번호·로그인 ID 의 기준: 기동 때마다 맞춘다
+      const data: any = {};
+      if (process.env.SEED_ADMIN_PASSWORD && !(await bcrypt.compare(process.env.SEED_ADMIN_PASSWORD, sys.passwordHash))) {
+        data.passwordHash = await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD, 10);
+      }
+      const wanted = this.adminEmail();
+      if (sys.email !== wanted && !(await this.prisma.user.findUnique({ where: { email: wanted } }))) data.email = wanted;
+      if (Object.keys(data).length) {
+        await this.prisma.user.update({ where: { id: sys.id }, data });
+        this.logger.log(`sysadmin synced from env (${Object.keys(data).join(', ')}) → login id: ${data.email ?? sys.email}`);
+      } else {
+        this.logger.log(`sysadmin ok → login id: ${sys.email}`);
+      }
+      return;
+    }
     let email = this.adminEmail();
     // 이미 담당자(예: 김혜경 부장)가 쓰는 이메일이면 그 계정을 건드리지 않고 'sysadmin' ID 로 만든다
     if (await this.prisma.user.findUnique({ where: { email } })) {
